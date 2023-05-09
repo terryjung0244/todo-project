@@ -19,5 +19,3 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 export function useAppSelector<T>(fn: (state: RootState) => T): T {
   return useSelector<RootState, T>(fn);
 }
-
-export default useAppSelector;
