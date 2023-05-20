@@ -1,5 +1,6 @@
-import { TodoType } from "service/model/todo";
+import { TodoType } from 'service/model/todo';
 
 export interface TodoReducerState {
-  todoList: TodoType[]
-};
+  todoList: TodoType[];
+  selectedIdList: string[];
+}

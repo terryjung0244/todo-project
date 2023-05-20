@@ -1,0 +1,84 @@
+.main-container {
+  /* border: 2px solid red;
+  margin-top: 100px;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  width: 100%;
+}
+
+.input-main-container {
+  /* display: flex; */
+}
+
+.input-container {
+  width: 200px;
+  height: 30px;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.todo-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.button-container {
+  height: 30px;
+  width: 80px;
+  border-radius: 15px;
+  border-style: hidden;
+  background-color: bisque;
+}
+
+.table-container {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #000;
+  padding: 0 15px;
+}
+
+.th-row {
+  height: 45px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+}
+
+.tb-row {
+  height: 40px;
+  text-align: center;
+}
+
+.th-checkbox,
+.td-checkbox {
+  width: 45px;
+  min-width: 45px;
+}
+
+.th-title,
+.td-title {
+  width: 100%;
+}
+
+.th-detail,
+.td-detail {
+  width: 250px;
+  min-width: 200px;
+}
+
+/* 
+.todo-done {
+  text-decoration: line-through;
+}
+
+.todo-not-done {
+  text-decoration: unset;
+} */
