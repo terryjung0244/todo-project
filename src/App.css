@@ -3,6 +3,12 @@
   max-width: 1200px;
   width: 100vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   padding: 50px;
+}
+
+.create-select-container {
+  display: flex;
+  align-items: center;
 }

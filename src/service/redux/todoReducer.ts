@@ -18,6 +18,8 @@ const todoReducer: Reducer<TodoReducerState, TodoActionsType> = (
         todoList: [...state.todoList, action.payload],
       };
     case 'SEND_EACH_TODO_ID':
+      console.log(action.payload);
+      // action.payload => todo id
       const tempSelectedIdList = [...state.selectedIdList];
       const index = tempSelectedIdList.indexOf(action.payload);
 
@@ -26,6 +28,7 @@ const todoReducer: Reducer<TodoReducerState, TodoActionsType> = (
       } else {
         tempSelectedIdList.splice(index, 1);
       }
+
       return {
         ...state,
         selectedIdList: tempSelectedIdList,

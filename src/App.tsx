@@ -1,11 +1,17 @@
 import CreateTodo from 'components/createTodo/CreateTodo';
 import React from 'react';
 import 'App.css';
+import ShowTodo from 'components/showTodo/ShowTodo';
+import SelectTodo from 'components/selectTodo/SelectTodo';
 
 const App = () => {
   return (
     <div className="app-container">
-      <CreateTodo />
+      <div className="create-select-container">
+        <CreateTodo />
+        <SelectTodo />
+      </div>
+      <ShowTodo />
     </div>
   );
 };

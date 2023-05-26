@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-import {
-  createTodoAction,
-  sendTodoIdForAllCheckBoxAction,
-  sendTodoIdForEachCheckBoxAction,
-} from 'service/redux/todoAction';
-import { useAppSelector, useAppDispatch } from 'service/store';
+import { createTodoAction } from 'service/redux/todoAction';
+import { useAppDispatch } from 'service/store';
 import { getNanoid } from 'service/util/nanoid';
 import '../createTodo/CreateTodo.css';
-import { TodoType } from 'service/model/todo';
 
 export interface TodoInput {
   title: string;
@@ -16,7 +11,6 @@ export interface TodoInput {
 
 const CreateTodo = () => {
   const dispatch = useAppDispatch();
-  const { todoList, selectedIdList } = useAppSelector((state) => state.todoReducer);
 
   const [inputCreateTodo, setInputCreateTodo] = useState<TodoInput>({
     title: '',
@@ -36,6 +30,7 @@ const CreateTodo = () => {
       alert('Fill in both fields');
       return;
     }
+
     dispatch(
       createTodoAction({
         ...inputCreateTodo,
@@ -44,28 +39,6 @@ const CreateTodo = () => {
     );
     setInputCreateTodo({ ...inputCreateTodo, title: '', desc: '' });
   };
-
-  const onChangeTodoEachCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    if (value) {
-      dispatch(sendTodoIdForEachCheckBoxAction(value));
-    }
-  };
-
-  const onChangeTodoAllCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = e.target;
-    if (checked) {
-      const todoIdList: string[] = todoList.map((todo: TodoType) => {
-        return todo.id;
-      });
-      dispatch(sendTodoIdForAllCheckBoxAction(todoIdList));
-    } else {
-      dispatch(sendTodoIdForAllCheckBoxAction([]));
-    }
-  };
-
-  // console.log(todoList);
-  console.log(selectedIdList);
 
   return (
     <div className="main-container">
@@ -88,40 +61,6 @@ const CreateTodo = () => {
         <button className="button-container" onClick={onClickCreateTodo}>
           Create
         </button>
-      </div>
-
-      <div className="todo-container">
-        {todoList.length > 0 && (
-          <table className="table-container">
-            <thead>
-              <tr className="th-row">
-                <th className="th-checkbox">
-                  <input type="checkbox" onChange={onChangeTodoAllCheckBox} />
-                </th>
-                <th className="th-title">Title</th>
-                <th className="th-detail">Detail</th>
-              </tr>
-            </thead>
-            <tbody>
-              {todoList.map((todo: TodoType) => {
-                return (
-                  <tr key={todo.id} className="tb-row">
-                    <td className="tb-checkbox">
-                      <input
-                        type="checkbox"
-                        value={todo.id}
-                        onChange={onChangeTodoEachCheckBox}
-                        checked={selectedIdList.includes(todo.id)}
-                      />
-                    </td>
-                    <td className="td-title">{todo.title}</td>
-                    <td className="td-detail">{todo.desc}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        )}
       </div>
     </div>
   );
