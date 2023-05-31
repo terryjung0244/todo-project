@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createTodoAction } from 'service/redux/todoAction';
 import { useAppDispatch } from 'service/store';
 import { getNanoid } from 'service/util/nanoid';
-import '../createTodo/CreateTodo.css';
+import 'components/createTodo/CreateTodo.css';
 
 export interface TodoInput {
   title: string;
@@ -35,6 +35,7 @@ const CreateTodo = () => {
       createTodoAction({
         ...inputCreateTodo,
         id: getNanoid(),
+        isDone: false,
       }),
     );
     setInputCreateTodo({ ...inputCreateTodo, title: '', desc: '' });
@@ -67,20 +68,3 @@ const CreateTodo = () => {
 };
 
 export default CreateTodo;
-
-/**
- * <table>
- *   <thead>
- *    <tr>
- *     <th>A</th>
- *     <th>B</th>
- *    </tr>
- *   </thead>
- *   <tbody>
- *    <tr>
- *     <td>A</td>
- *     <td>B</td>
- *    </tr>
- *   </tbody>
- * </table>
- */

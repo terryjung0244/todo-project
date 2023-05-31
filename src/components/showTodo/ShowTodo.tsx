@@ -5,7 +5,7 @@ import {
   sendTodoIdForEachCheckBoxAction,
 } from 'service/redux/todoAction';
 import { useAppDispatch, useAppSelector } from 'service/store';
-import './ShowTodo.css';
+import 'components/showTodo/ShowTodo.css';
 
 const ShowTodo = () => {
   const dispatch = useAppDispatch();
@@ -36,7 +36,6 @@ const ShowTodo = () => {
 
   return (
     <div>
-      {' '}
       <div className="todo-container">
         {todoList.length > 0 && (
           <table className="table-container">
@@ -46,6 +45,7 @@ const ShowTodo = () => {
                   <input
                     type="checkbox"
                     onChange={onChangeTodoAllCheckBox} /*@@@@@@@@@@@@@@@@@@@@@@@@*/
+                    checked={selectedIdList.length > 0 ? true : false}
                   />
                 </th>
                 <th className="th-title">Title</th>
@@ -60,7 +60,7 @@ const ShowTodo = () => {
                       <input
                         type="checkbox"
                         value={todo.id} // id 값
-                        onChange={onChangeTodoEachCheckBox}
+                        onChange={onChangeTodoEachCheckBox} /*%%%%%%%%%%%%%%%%%%%%%%%*/
                         checked={selectedIdList.includes(todo.id)}
                         // 2개의 아이디가 들어가있는지 includes을 사용해서 판별해주는 method.
                         // 결국 checked가 2개의 아이디가 들어가있기 때문에, true가 되고 ui상에서 체크박스가 checked로 보인다.
