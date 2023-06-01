@@ -4,7 +4,13 @@ import { TodoActionsType } from 'service/redux/todoAction.interface';
 import { TODO_ACTION_CONST } from 'service/const/actionConst';
 import { TodoType } from 'service/model/todo';
 
-const { CREATE_TODO, SEND_ALL_TODO_ID, SEND_EACH_TODO_ID, SELECT_MARK_AS_DONE } = TODO_ACTION_CONST;
+const {
+  CREATE_TODO,
+  SEND_ALL_TODO_ID,
+  SEND_EACH_TODO_ID,
+  SELECT_MARK_AS_DONE,
+  SELECT_MARK_AS_NOT_DONE,
+} = TODO_ACTION_CONST;
 const initialState: TodoReducerState = {
   todoList: [],
   selectedIdList: [],
@@ -42,16 +48,41 @@ const todoReducer: Reducer<TodoReducerState, TodoActionsType> = (
         selectedIdList: action.payload,
       };
     case SELECT_MARK_AS_DONE:
-      const tempTodoList = [...state.todoList];
-      const tempSelectedIdListA = [...state.selectedIdList];
+      const tempTodoListForMarkAsDone = [...state.todoList];
+      console.log(tempTodoListForMarkAsDone); // 그대로 가져오고,
 
-      const temp = tempTodoList.map((todo: TodoType) => {
-        return { ...todo, isDone: action.payload };
+      const tempSelectedIdListForSelectMarkAsDone = [...state.selectedIdList];
+      console.log(tempSelectedIdListForSelectMarkAsDone); // 선택한 id
+
+      const tempForMarkAsDone = tempTodoListForMarkAsDone.map((todo: TodoType) => {
+        console.log(tempSelectedIdListForSelectMarkAsDone.includes(todo.id)); // 선택한 id가 포함이니까 true.
+        return {
+          ...todo,
+          isDone: tempSelectedIdListForSelectMarkAsDone.includes(todo.id) ? action.payload : false,
+        };
       });
 
       return {
         ...state,
-        todoList: temp,
+        todoList: tempForMarkAsDone, //바뀐 값을 todoList에 넣어라
+      };
+    case SELECT_MARK_AS_NOT_DONE:
+      const tempTodoListForMarkAsNotDone = [...state.todoList]; // 1
+      console.log(tempTodoListForMarkAsNotDone);
+
+      const tempSelectedIdListForSelectMarkNotAsDone = [...state.selectedIdList];
+      console.log(tempSelectedIdListForSelectMarkNotAsDone);
+
+      const tempForMarkAsNotDone = tempTodoListForMarkAsNotDone.map((todo: TodoType) => {
+        return {
+          ...todo,
+          isDone: tempSelectedIdListForSelectMarkNotAsDone.includes(todo.id) ? true : false,
+        };
+      });
+
+      return {
+        ...state,
+        todoList: tempForMarkAsNotDone,
       };
     default:
       return state;

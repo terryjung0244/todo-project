@@ -3,10 +3,18 @@ import {
   CreateTodoActionType,
   SendTodoIdForAllCheckBoxActionType,
   SendTodoIdForEachCheckBoxActionType,
+  TodoMarkAsDoneActionType,
+  TodoMarkAsNotDoneActionType,
 } from './todoAction.interface';
 import { TODO_ACTION_CONST } from 'service/const/actionConst';
 
-const { CREATE_TODO, SEND_ALL_TODO_ID, SEND_EACH_TODO_ID, SELECT_MARK_AS_DONE } = TODO_ACTION_CONST;
+const {
+  CREATE_TODO,
+  SEND_ALL_TODO_ID,
+  SEND_EACH_TODO_ID,
+  SELECT_MARK_AS_DONE,
+  SELECT_MARK_AS_NOT_DONE,
+} = TODO_ACTION_CONST;
 
 export const createTodoAction = (newTodo: TodoType): CreateTodoActionType => {
   return {
@@ -37,9 +45,16 @@ export const sendTodoIdForAllCheckBoxAction = (
   };
 };
 
-export const todoMarkAsDoneAction = (selectedBoolean: boolean) => {
+export const todoMarkAsDoneAction = (selectedBoolean: boolean): TodoMarkAsDoneActionType => {
   return {
     type: SELECT_MARK_AS_DONE,
     payload: selectedBoolean,
+  };
+};
+
+export const todoMarkAsNotDoneAction = (): TodoMarkAsNotDoneActionType => {
+  return {
+    type: SELECT_MARK_AS_NOT_DONE,
+    payload: null,
   };
 };

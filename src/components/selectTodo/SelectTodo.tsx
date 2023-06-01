@@ -2,7 +2,7 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from 'service/store';
 import 'components/selectTodo/SelectTodo.css';
 import { SELECT_CONST } from 'service/const/generalConst';
-import { todoMarkAsDoneAction } from 'service/redux/todoAction';
+import { todoMarkAsDoneAction, todoMarkAsNotDoneAction } from 'service/redux/todoAction';
 
 const { MARK_AS_DONE, MARK_AS_NOT_DONE, UPDATE, DELETE, SELECT } = SELECT_CONST;
 
@@ -23,7 +23,7 @@ const SelectTodo = () => {
         dispatch(todoMarkAsDoneAction(true));
         break;
       case MARK_AS_NOT_DONE:
-        console.log('2');
+        dispatch(todoMarkAsNotDoneAction()); // 요기서는 true을 바로 안보내고 해봄?
         break;
       // Update, Delete
       default:
