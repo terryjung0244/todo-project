@@ -8,6 +8,7 @@ const {
   SEND_EACH_TODO_ID,
   SELECT_MARK_AS_DONE,
   SELECT_MARK_AS_NOT_DONE,
+  SELECT_DELETE,
 } = TODO_ACTION_CONST;
 
 export interface CreateTodoActionType {
@@ -28,12 +29,17 @@ export interface SendTodoIdForEachCheckBoxActionType {
 
 export interface TodoMarkAsDoneActionType {
   type: typeof SELECT_MARK_AS_DONE;
-  payload: boolean;
+  payload?: null;
 }
 
 export interface TodoMarkAsNotDoneActionType {
   type: typeof SELECT_MARK_AS_NOT_DONE;
-  payload: null;
+  payload?: null;
+}
+
+export interface TodoDeleteType {
+  type: typeof SELECT_DELETE;
+  payload?: null;
 }
 
 export type TodoActionsType =
@@ -42,4 +48,5 @@ export type TodoActionsType =
   | SendTodoIdForEachCheckBoxActionType
   | TodoMarkAsDoneActionType
   | TodoMarkAsNotDoneActionType
+  | TodoDeleteType
   | AnyAction;

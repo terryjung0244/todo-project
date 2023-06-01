@@ -66,8 +66,18 @@ const ShowTodo = () => {
                         // 결국 checked가 2개의 아이디가 들어가있기 때문에, true가 되고 ui상에서 체크박스가 checked로 보인다.
                       />
                     </td>
-                    <td className="td-title">{todo.title}</td>
-                    <td className="td-detail">{todo.desc}</td>
+                    <td
+                      className="td-title"
+                      style={{ textDecoration: todo.isDone ? 'line-through' : 'unset' }}
+                    >
+                      {todo.title}
+                    </td>
+                    <td
+                      className="td-detail"
+                      style={{ textDecoration: todo.isDone ? 'line-through' : 'unset' }}
+                    >
+                      {todo.desc}
+                    </td>
                   </tr>
                 );
               })}
@@ -80,3 +90,47 @@ const ShowTodo = () => {
 };
 
 export default ShowTodo;
+
+// const todoList = [
+//   {
+//     id: 'a',
+//     title: 'aa', // hello
+//   },
+//   {
+//     id: 'b',
+//     title: 'bb', // world
+//   },
+// ];
+
+// console.log(todoList);
+
+// console.log(todoList[1].title);
+
+// const newTodo = todoList.map((todo, index) => {
+//   return {
+//     ...todo,
+//     title: index === 0 ? 'hello' : 'world',
+//   };
+// });
+
+// console.log(newTodo);
+
+/*
+ * 숙제
+ * userList []
+ * {
+ *  id
+ *  name
+ *  email
+ * }
+ *
+ * userList [] => map, filter, forEach, inlcudes, findIndex, splice, indexOf
+ *
+ * user {}
+ *
+ * userList => [...userList, property: ''] (x)
+ * user => {...user, name: 'aa'} (o)
+ */
+
+// bootstrap connect with react
+// modal

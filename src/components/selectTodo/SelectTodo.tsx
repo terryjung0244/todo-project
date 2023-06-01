@@ -2,17 +2,23 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from 'service/store';
 import 'components/selectTodo/SelectTodo.css';
 import { SELECT_CONST } from 'service/const/generalConst';
-import { todoMarkAsDoneAction, todoMarkAsNotDoneAction } from 'service/redux/todoAction';
+import {
+  todoDeleteAction,
+  todoMarkAsDoneAction,
+  todoMarkAsNotDoneAction,
+} from 'service/redux/todoAction';
 
 const { MARK_AS_DONE, MARK_AS_NOT_DONE, UPDATE, DELETE, SELECT } = SELECT_CONST;
 
 const SelectTodo = () => {
   const dispatch = useAppDispatch();
-  const { selectedIdList } = useAppSelector((state) => state.todoReducer);
+  const { selectedIdList, todoList } = useAppSelector((state) => state.todoReducer);
 
   // const onChangeSelectTag = () => {
   //   console.log('123');
   // };
+
+  console.log(todoList);
 
   const selectOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
@@ -20,14 +26,17 @@ const SelectTodo = () => {
 
     switch (value) {
       case MARK_AS_DONE:
-        dispatch(todoMarkAsDoneAction(true));
+        dispatch(todoMarkAsDoneAction());
         break;
       case MARK_AS_NOT_DONE:
         dispatch(todoMarkAsNotDoneAction()); // 요기서는 true을 바로 안보내고 해봄?
         break;
+
+      case DELETE:
+        dispatch(todoDeleteAction());
+        break;
       // Update, Delete
       default:
-        console.log('3');
         break;
     }
   };
