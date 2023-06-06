@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'service/store';
 import 'components/selectTodo/SelectTodo.css';
 import { SELECT_CONST } from 'service/const/generalConst';
@@ -7,22 +7,34 @@ import {
   todoMarkAsDoneAction,
   todoMarkAsNotDoneAction,
 } from 'service/redux/todoAction';
+import { Modal } from 'react-bootstrap';
+import { TodoInput } from 'components/createTodo/CreateTodo';
 
 const { MARK_AS_DONE, MARK_AS_NOT_DONE, UPDATE, DELETE, SELECT } = SELECT_CONST;
 
 const SelectTodo = () => {
   const dispatch = useAppDispatch();
+  const [updateTodo, setUpdateTodo] = useState<TodoInput>({
+    title: '',
+    desc: '',
+  });
+  const [showModal, setShowModal] = useState<boolean>(false);
   const { selectedIdList, todoList } = useAppSelector((state) => state.todoReducer);
 
   // const onChangeSelectTag = () => {
   //   console.log('123');
   // };
 
-  console.log(todoList);
+  const showModalFunc = (modalToggle: boolean) => {
+    setShowModal(modalToggle);
+  };
+
+  const updateInputTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUpdateTodo({ ...updateTodo, [e.target.name]: e.target.value });
+  };
 
   const selectOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
-    console.log(value);
 
     switch (value) {
       case MARK_AS_DONE:
@@ -35,6 +47,11 @@ const SelectTodo = () => {
       case DELETE:
         dispatch(todoDeleteAction());
         break;
+
+      case UPDATE:
+        showModalFunc(true);
+        // dispatch(())
+        break;
       // Update, Delete
       default:
         break;
@@ -42,21 +59,42 @@ const SelectTodo = () => {
   };
 
   if (selectedIdList.length === 0) {
-    console.log(selectedIdList.length);
     return null;
     // 비어있으면 null을 return하기에 밑에 실행하지마라.
   }
 
+  // console.log(selectedIdList[0]);
+
   return (
-    <select className="select-dropdown-container" defaultValue={SELECT} onChange={selectOption}>
-      <option value={SELECT} disabled hidden>
-        Select
-      </option>
-      <option value={MARK_AS_DONE}>Mark As Done</option>
-      <option value={MARK_AS_NOT_DONE}>Mark As Not Done</option>
-      {selectedIdList.length === 1 && <option value={UPDATE}>Update</option>}
-      <option value={DELETE}>Delete</option>
-    </select>
+    <>
+      <select className="select-dropdown-container" defaultValue={SELECT} onChange={selectOption}>
+        <option value={SELECT} disabled hidden>
+          Select
+        </option>
+        <option value={MARK_AS_DONE}>Mark As Done</option>
+        <option value={MARK_AS_NOT_DONE}>Mark As Not Done</option>
+        {selectedIdList.length === 1 && <option value={UPDATE}>Update</option>}
+        <option value={DELETE}>Delete</option>
+      </select>
+
+      <Modal show={showModal} onHide={() => showModalFunc(false)}>
+        <div className="modal-container">
+          <h3 className="modal-title">Update Todo</h3>
+          <input
+            name={'title'}
+            value={updateTodo.title}
+            onChange={updateInputTodo}
+            placeholder="Update Todo Title"
+          />
+          <input
+            name={'desc'}
+            value={updateTodo.desc}
+            onChange={updateInputTodo}
+            placeholder="Update Todo Desc"
+          />
+        </div>
+      </Modal>
+    </>
   );
 
   // if (selectedIdList.length === 0) {

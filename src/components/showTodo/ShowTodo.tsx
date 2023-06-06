@@ -18,21 +18,20 @@ const ShowTodo = () => {
     }
   };
 
-  console.log(todoList); // CreateTodo에서 Input을 통해서 이미 배열로 데이터가 들어가있는 상태.
+  // console.log(todoList); // CreateTodo에서 Input을 통해서 이미 배열로 데이터가 들어가있는 상태.
 
   const onChangeTodoAllCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
     if (checked) {
       const todoIdList: string[] = todoList.map((todo: TodoType) => todo.id);
-      console.log(todoIdList);
       dispatch(sendTodoIdForAllCheckBoxAction(todoIdList));
     } else {
       dispatch(sendTodoIdForAllCheckBoxAction([]));
     }
   };
 
-  console.log('TodoList: ', todoList);
-  console.log('SelectedIdList: ', selectedIdList);
+  // console.log('TodoList: ', todoList);
+  // console.log('SelectedIdList: ', selectedIdList);
 
   return (
     <div>
@@ -41,22 +40,22 @@ const ShowTodo = () => {
           <table className="table-container">
             <thead>
               <tr className="th-row">
-                <th className="th-checkbox">
+                <th className="th-checkbox th-">
                   <input
                     type="checkbox"
                     onChange={onChangeTodoAllCheckBox} /*@@@@@@@@@@@@@@@@@@@@@@@@*/
                     checked={selectedIdList.length > 0 ? true : false}
                   />
                 </th>
-                <th className="th-title">Title</th>
-                <th className="th-detail">Detail</th>
+                <th className="th-title th-">Title</th>
+                <th className="th-detail th-">Detail</th>
               </tr>
             </thead>
             <tbody>
               {todoList.map((todo: TodoType) => {
                 return (
                   <tr key={todo.id} className="tb-row">
-                    <td className="tb-checkbox">
+                    <td className="tb-checkbox td-">
                       <input
                         type="checkbox"
                         value={todo.id} // id 값
@@ -67,13 +66,13 @@ const ShowTodo = () => {
                       />
                     </td>
                     <td
-                      className="td-title"
+                      className="td-title td-"
                       style={{ textDecoration: todo.isDone ? 'line-through' : 'unset' }}
                     >
                       {todo.title}
                     </td>
                     <td
-                      className="td-detail"
+                      className="td-detail td-"
                       style={{ textDecoration: todo.isDone ? 'line-through' : 'unset' }}
                     >
                       {todo.desc}
@@ -134,3 +133,43 @@ export default ShowTodo;
 
 // bootstrap connect with react
 // modal
+
+// interface UserType {
+//   id: string;
+//   name: string;
+//   age?: number;
+// }
+
+// const userList: UserType[] = [
+//   { id: '1', name: 'Terry' },
+//   { id: '2', name: 'Hong' },
+// ];
+
+// for (let i = 0; i < userList.length; i++) {
+//   console.log(userList[i].name);
+// }
+
+// userList.forEach((user: UserType) => {
+//   console.log(user.id);
+//   console.log(user.name);
+// });
+
+// const newUserList: string[] = userList.map((user: UserType) => {
+//   return user.name;
+// });
+
+// console.log(newUserList);
+
+// ['terry', 'Hong'];
+
+// const newUserList: UserType[] = userList.map((user: UserType) => {
+//   console.log(user.id);
+//   console.log(user.name);
+
+//   return {
+//     ...user,
+//     age: 10,
+//   };
+// });
+
+// console.log(newUserList[0]);

@@ -17,8 +17,8 @@
   border-collapse: collapse;
 }
 
-th,
-td {
+.th-,
+.td- {
   border: 1px solid #000;
   padding: 0 15px;
 }
