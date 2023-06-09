@@ -6,6 +6,7 @@ import {
   TodoDeleteType,
   TodoMarkAsDoneActionType,
   TodoMarkAsNotDoneActionType,
+  TodoUpdateType,
 } from './todoAction.interface';
 import { TODO_ACTION_CONST } from 'service/const/actionConst';
 
@@ -16,6 +17,7 @@ const {
   SELECT_MARK_AS_DONE,
   SELECT_MARK_AS_NOT_DONE,
   SELECT_DELETE,
+  SELECT_UPDATE,
 } = TODO_ACTION_CONST;
 
 export const createTodoAction = (newTodo: TodoType): CreateTodoActionType => {
@@ -62,5 +64,12 @@ export const todoMarkAsNotDoneAction = (): TodoMarkAsNotDoneActionType => {
 export const todoDeleteAction = (): TodoDeleteType => {
   return {
     type: SELECT_DELETE,
+  };
+};
+
+export const todoUpdateAction = (updateTodoInput: Partial<TodoType>): TodoUpdateType => {
+  return {
+    type: SELECT_UPDATE,
+    payload: updateTodoInput,
   };
 };

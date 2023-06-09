@@ -6,6 +6,7 @@ import {
   todoDeleteAction,
   todoMarkAsDoneAction,
   todoMarkAsNotDoneAction,
+  todoUpdateAction,
 } from 'service/redux/todoAction';
 import { Modal } from 'react-bootstrap';
 import { TodoInput } from 'components/createTodo/CreateTodo';
@@ -29,8 +30,28 @@ const SelectTodo = () => {
     setShowModal(modalToggle);
   };
 
+  const onClickUpdate = () => {
+    console.log(selectedIdList);
+    const { title, desc } = updateTodo;
+    if (title === '' || desc === '') {
+      // if (!title || !desc)
+      alert('Fill in both fields');
+      return;
+    }
+    dispatch(todoUpdateAction({ ...updateTodo, id: selectedIdList[0] }));
+  };
+
   const updateInputTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUpdateTodo({ ...updateTodo, [e.target.name]: e.target.value });
+
+    // const { title, desc } = updateTodo;
+    // if (!title || !desc) {
+    //   alert('Fill in both fields');
+    //   return;
+    // }
+
+    // dispatch(todoUpdateAction());
+    // setUpdateTodo({ ...updateTodo, title: '', desc: '' });
   };
 
   const selectOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -92,6 +113,7 @@ const SelectTodo = () => {
             onChange={updateInputTodo}
             placeholder="Update Todo Desc"
           />
+          <button onClick={onClickUpdate}>Update</button>
         </div>
       </Modal>
     </>

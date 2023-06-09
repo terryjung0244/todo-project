@@ -1,3 +1,4 @@
+import { produce } from 'immer';
 import { Reducer } from 'redux';
 import { TodoReducerState } from 'service/redux/todoReducer.interface';
 import { TodoActionsType } from 'service/redux/todoAction.interface';
@@ -11,7 +12,9 @@ const {
   SELECT_MARK_AS_DONE,
   SELECT_MARK_AS_NOT_DONE,
   SELECT_DELETE,
+  SELECT_UPDATE,
 } = TODO_ACTION_CONST;
+
 const initialState: TodoReducerState = {
   todoList: [],
   selectedIdList: [],
@@ -21,94 +24,118 @@ const todoReducer: Reducer<TodoReducerState, TodoActionsType> = (
   state = initialState,
   action: TodoActionsType,
 ): TodoReducerState => {
-  switch (action.type) {
-    case CREATE_TODO:
-      return {
-        ...state,
-        todoList: [...state.todoList, action.payload],
-      };
-    case SEND_EACH_TODO_ID:
-      console.log(action.payload);
-      // action.payload => todo id
-      const tempSelectedIdList = [...state.selectedIdList];
-      const index = tempSelectedIdList.indexOf(action.payload);
-
-      if (index === -1) {
-        tempSelectedIdList.push(action.payload);
-      } else {
-        tempSelectedIdList.splice(index, 1);
-      }
-
-      return {
-        ...state,
-        selectedIdList: tempSelectedIdList,
-      };
-    case SEND_ALL_TODO_ID:
-      return {
-        ...state,
-        selectedIdList: action.payload,
-      };
-    case SELECT_MARK_AS_DONE:
-      const tempTodoListForMarkAsDone = [...state.todoList];
-      console.log(tempTodoListForMarkAsDone); // 그대로 가져오고,
-
-      const tempSelectedIdListForSelectMarkAsDone = [...state.selectedIdList];
-      console.log(tempSelectedIdListForSelectMarkAsDone); // 선택한 id
-
-      const tempForMarkAsDone = tempTodoListForMarkAsDone.map((todo: TodoType) => {
-        console.log(tempSelectedIdListForSelectMarkAsDone.includes(todo.id)); // 선택한 id가 포함이니까 true.
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case CREATE_TODO:
         return {
-          ...todo,
-          isDone: tempSelectedIdListForSelectMarkAsDone.includes(todo.id) ? true : false,
+          ...state,
+          todoList: [...state.todoList, action.payload],
         };
-      });
+      case SEND_EACH_TODO_ID:
+        console.log(action.payload);
+        // action.payload => todo id
+        const tempSelectedIdList = [...state.selectedIdList];
+        const index = tempSelectedIdList.indexOf(action.payload);
 
-      return {
-        ...state,
-        todoList: tempForMarkAsDone, //바뀐 값을 todoList에 넣어라
-      };
-    case SELECT_MARK_AS_NOT_DONE:
-      const tempTodoListForMarkAsNotDone = [...state.todoList]; // 1
-      console.log(tempTodoListForMarkAsNotDone);
+        if (index === -1) {
+          tempSelectedIdList.push(action.payload);
+        } else {
+          tempSelectedIdList.splice(index, 1);
+        }
 
-      const tempSelectedIdListForSelectMarkNotAsDone = [...state.selectedIdList]; // 2
-      console.log(tempSelectedIdListForSelectMarkNotAsDone);
-
-      const tempForMarkAsNotDone = tempTodoListForMarkAsNotDone.map((todo: TodoType) => {
         return {
-          ...todo,
-          isDone: tempSelectedIdListForSelectMarkNotAsDone.includes(todo.id) ? false : true,
+          ...state,
+          selectedIdList: tempSelectedIdList,
         };
-      });
+      case SEND_ALL_TODO_ID:
+        return {
+          ...state,
+          selectedIdList: action.payload,
+        };
+      case SELECT_MARK_AS_DONE:
+        const tempTodoListForMarkAsDone = [...state.todoList];
+        console.log(tempTodoListForMarkAsDone); // 그대로 가져오고,
 
-      return {
-        ...state,
-        todoList: tempForMarkAsNotDone,
-      };
+        const tempSelectedIdListForSelectMarkAsDone = [...state.selectedIdList];
+        console.log(tempSelectedIdListForSelectMarkAsDone); // 선택한 id
 
-    case SELECT_DELETE:
-      const tempTodoListForDelete = [...state.todoList];
-      const tempSelectedIdListForDelete = [...state.selectedIdList];
+        const tempForMarkAsDone = tempTodoListForMarkAsDone.map((todo: TodoType) => {
+          console.log(tempSelectedIdListForSelectMarkAsDone.includes(todo.id)); // 선택한 id가 포함이니까 true.
+          return {
+            ...todo,
+            isDone: tempSelectedIdListForSelectMarkAsDone.includes(todo.id) ? true : false,
+          };
+        });
 
-      tempSelectedIdListForDelete.forEach((id: string) => {
-        let index = tempTodoListForDelete.findIndex((todo: TodoType) => todo.id === id);
-        tempTodoListForDelete.splice(index, 1);
-      });
+        return {
+          ...state,
+          todoList: tempForMarkAsDone, //바뀐 값을 todoList에 넣어라
+        };
+      case SELECT_MARK_AS_NOT_DONE:
+        const tempTodoListForMarkAsNotDone = [...state.todoList]; // 1
+        console.log(tempTodoListForMarkAsNotDone);
 
-      // const newTodo = tempTodoListForDelete.filter(
-      //   (todo: TodoType) => !tempSelectedIdListForDelete.includes(todo.id),
+        const tempSelectedIdListForSelectMarkNotAsDone = [...state.selectedIdList]; // 2
+        console.log(tempSelectedIdListForSelectMarkNotAsDone);
+
+        const tempForMarkAsNotDone = tempTodoListForMarkAsNotDone.map((todo: TodoType) => {
+          return {
+            ...todo,
+            isDone: tempSelectedIdListForSelectMarkNotAsDone.includes(todo.id) ? false : true,
+          };
+        });
+
+        return {
+          ...state,
+          todoList: tempForMarkAsNotDone,
+        };
+
+      case SELECT_DELETE:
+        const tempTodoListForDelete = [...state.todoList];
+        const tempSelectedIdListForDelete = [...state.selectedIdList];
+
+        tempSelectedIdListForDelete.forEach((id: string) => {
+          let index = tempTodoListForDelete.findIndex((todo: TodoType) => todo.id === id);
+          tempTodoListForDelete.splice(index, 1);
+        });
+
+        // const newTodo = tempTodoListForDelete.filter(
+        //   (todo: TodoType) => !tempSelectedIdListForDelete.includes(todo.id),
+        // );
+
+        console.log(tempTodoListForDelete);
+
+        return {
+          ...state,
+          todoList: tempTodoListForDelete,
+          selectedIdList: [],
+        };
+
+      case SELECT_UPDATE:
+        const { title, desc, id } = action.payload;
+
+        const updateIndex: number = draft.todoList.findIndex((todo: TodoType) => todo.id === id);
+        draft.todoList[updateIndex].title = title;
+        draft.todoList[updateIndex].desc = desc;
+        draft.selectedIdList = [];
+        break;
+      // let tempTodoListForUpdate = [...state.todoList];
+      // const updateIndex: number = tempTodoListForUpdate.findIndex(
+      //   (todo: TodoType) => todo.id === id,
       // );
+      // console.log(updateIndex);
+      // console.log(tempTodoListForUpdate);
+      // tempTodoListForUpdate[updateIndex].title = title;
+      // tempTodoListForUpdate[updateIndex].desc = desc;
 
-      console.log(tempTodoListForDelete);
-
-      return {
-        ...state,
-        todoList: tempTodoListForDelete,
-        selectedIdList: [],
-      };
-    default:
-      return state;
-  }
+      // return {
+      //   ...state,
+      //   // todoList: tempTodoListForUpdate,
+      // };
+      default:
+        return state;
+    }
+  });
 };
 
 export default todoReducer;
