@@ -27,69 +27,84 @@ const todoReducer: Reducer<TodoReducerState, TodoActionsType> = (
   return produce(state, (draft) => {
     switch (action.type) {
       case CREATE_TODO:
-        return {
-          ...state,
-          todoList: [...state.todoList, action.payload],
-        };
+        draft.todoList.push(action.payload);
+        break;
       case SEND_EACH_TODO_ID:
-        console.log(action.payload);
-        // action.payload => todo id
-        const tempSelectedIdList = [...state.selectedIdList];
-        const index = tempSelectedIdList.indexOf(action.payload);
+        // const tempSelectedIdList = [...state.selectedIdList];
+
+        const index = draft.selectedIdList.indexOf(action.payload);
 
         if (index === -1) {
-          tempSelectedIdList.push(action.payload);
+          draft.selectedIdList.push(action.payload);
         } else {
-          tempSelectedIdList.splice(index, 1);
+          draft.selectedIdList.splice(index, 1);
         }
 
-        return {
-          ...state,
-          selectedIdList: tempSelectedIdList,
-        };
+        // return {
+        //   ...state,
+        //   selectedIdList: draft.selectedIdList,
+        // };
+        break;
       case SEND_ALL_TODO_ID:
-        return {
-          ...state,
-          selectedIdList: action.payload,
-        };
+        draft.selectedIdList.push(action.payload);
+        // return {
+        //   ...state,
+        //   selectedIdList: action.payload,
+        // };
+        break;
       case SELECT_MARK_AS_DONE:
-        const tempTodoListForMarkAsDone = [...state.todoList];
-        console.log(tempTodoListForMarkAsDone); // 그대로 가져오고,
+        // const tempTodoListForMarkAsDone = [...state.todoList];
+        // console.log(tempTodoListForMarkAsDone); // 그대로 가져오고,
 
-        const tempSelectedIdListForSelectMarkAsDone = [...state.selectedIdList];
-        console.log(tempSelectedIdListForSelectMarkAsDone); // 선택한 id
+        // const tempSelectedIdListForSelectMarkAsDone = [...state.selectedIdList];
+        // console.log(tempSelectedIdListForSelectMarkAsDone); // 선택한 id
 
-        const tempForMarkAsDone = tempTodoListForMarkAsDone.map((todo: TodoType) => {
-          console.log(tempSelectedIdListForSelectMarkAsDone.includes(todo.id)); // 선택한 id가 포함이니까 true.
-          return {
-            ...todo,
-            isDone: tempSelectedIdListForSelectMarkAsDone.includes(todo.id) ? true : false,
-          };
+        const tempForMarkAsDone = draft.todoList.map((todo: TodoType) => {
+          if (draft.selectedIdList.includes(todo.id)) {
+            return { ...todo, isDone: true };
+          } else {
+            return { ...todo };
+          }
+          // draft.todoList.push(isDone: draft.selectedIdList.includes(todo.id) ? {} : {})
+          // return {
+          //   ...todo,
+          //   isDone: draft.selectedIdList.includes(todo.id) ? true : false,
+          // };
         });
 
-        return {
-          ...state,
-          todoList: tempForMarkAsDone, //바뀐 값을 todoList에 넣어라
-        };
+        draft.todoList = tempForMarkAsDone;
+
+        // return {
+        //   ...state,
+        //   todoList: tempForMarkAsDone, //바뀐 값을 todoList에 넣어라
+        // };
+        break;
       case SELECT_MARK_AS_NOT_DONE:
-        const tempTodoListForMarkAsNotDone = [...state.todoList]; // 1
-        console.log(tempTodoListForMarkAsNotDone);
+        // const tempTodoListForMarkAsNotDone = [...state.todoList]; // 1
+        // console.log(tempTodoListForMarkAsNotDone);
 
-        const tempSelectedIdListForSelectMarkNotAsDone = [...state.selectedIdList]; // 2
-        console.log(tempSelectedIdListForSelectMarkNotAsDone);
+        // const tempSelectedIdListForSelectMarkNotAsDone = [...state.selectedIdList]; // 2
+        // console.log(tempSelectedIdListForSelectMarkNotAsDone);
 
-        const tempForMarkAsNotDone = tempTodoListForMarkAsNotDone.map((todo: TodoType) => {
+        // const tempForMarkAsNotDone = tempTodoListForMarkAsNotDone.map((todo: TodoType) => {
+        //   return {
+        //     ...todo,
+        //     isDone: tempSelectedIdListForSelectMarkNotAsDone.includes(todo.id) ? false : true,
+        //   };
+        // });
+
+        // return {
+        //   ...state,
+        //   todoList: tempForMarkAsNotDone,
+        // };
+        const tempForMarkAsNotDone = draft.todoList.map((todo: TodoType) => {
           return {
             ...todo,
-            isDone: tempSelectedIdListForSelectMarkNotAsDone.includes(todo.id) ? false : true,
+            isDone: draft.selectedIdList.includes(todo.id) ? false : true,
           };
         });
-
-        return {
-          ...state,
-          todoList: tempForMarkAsNotDone,
-        };
-
+        draft.todoList = tempForMarkAsNotDone;
+        break;
       case SELECT_DELETE:
         const tempTodoListForDelete = [...state.todoList];
         const tempSelectedIdListForDelete = [...state.selectedIdList];
@@ -161,3 +176,74 @@ export default todoReducer;
 //   ...initial,
 //   a: ['1']
 // }
+
+// let selectedIdList: string[] = ['2'];
+// let todos: TodoType[] = [
+//   {
+//     id: '1',
+//     title: 'A',
+//     desc: 'a',
+//     isDone: false,
+//   },
+//   {
+//     id: '2',
+//     title: 'B',
+//     desc: 'b',
+//     isDone: false,
+//   },
+//   {
+//     id: '3',
+//     title: 'C',
+//     desc: 'c',
+//     isDone: false,
+//   },
+// ];
+
+// const newTodos = todos.map((todo: TodoType) => {
+//   // console.log(todo);
+//   return { ...todo };
+// });
+// console.log(newTodos);
+
+// interface IUser {
+//   id: string;
+//   name: string;
+//   age: number;
+//   hobby?: string;
+// }
+// let userList: IUser[] = [
+//   {
+//     id: '1',
+//     name: 'hong',
+//     age: 33,
+//   },
+//   {
+//     id: '2',
+//     name: 'terry',
+//     age: 33,
+//   },
+// ];
+
+// const result: IUser[] = userList.map((user: IUser) => {
+//   if (user.name.includes('h')) {
+//     return {
+//       ...user,
+//       age: 50,
+//       hobby: 'coding',
+//     };
+//   } else {
+//     return {
+//       ...user,
+//     };
+//   }
+
+//   // } else {
+//   // }
+
+//   // return {
+//   //   ...user,
+//   //   age: 35,
+//   // };
+// });
+
+// console.log(result[0].hobby);

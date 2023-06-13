@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createTodoAction } from 'service/redux/todoAction';
 import { useAppDispatch } from 'service/store';
 import { getNanoid } from 'service/util/nanoid';
+import { Row, Col } from 'react-bootstrap';
 import 'components/createTodo/CreateTodo.css';
 
 export interface TodoInput {
@@ -43,7 +44,30 @@ const CreateTodo = () => {
 
   return (
     <div className="main-container">
-      <div className="input-main-container">
+      <Row>
+        <Col sm={12} md={4}>
+          <input
+            className="input-container"
+            placeholder="Create Todo Title"
+            name="title"
+            value={inputCreateTodo.title} //변동
+            onChange={onChangeCreateTodo}
+          />
+        </Col>
+        <Col sm={12} md={4}>
+          <input
+            className="input-container"
+            placeholder="Create Todo Desc"
+            name="desc"
+            value={inputCreateTodo.desc} //변동
+            onChange={onChangeCreateTodo}
+          />
+        </Col>
+        <Col sm={12} md={4}>
+          <button onClick={onClickCreateTodo}>Create</button>
+        </Col>
+      </Row>
+      {/* <div className="input-main-container">
         <input
           className="input-container"
           placeholder="Create Todo Title"
@@ -58,11 +82,10 @@ const CreateTodo = () => {
           value={inputCreateTodo.desc} //변동
           onChange={onChangeCreateTodo}
         />
-        {/* <button onClick={() => onClickCreateTodo(inputCreateTodo)}>Click</button> */}
         <button className="button-container" onClick={onClickCreateTodo}>
           Create
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

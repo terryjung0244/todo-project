@@ -3,9 +3,14 @@ import React from 'react';
 import 'App.css';
 import ShowTodo from 'components/showTodo/ShowTodo';
 import SelectTodo from 'components/selectTodo/SelectTodo';
+// import { ThemeProvider } from 'react-bootstrap';
 
 const App = () => {
   return (
+    // <ThemeProvider
+    //   breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
+    //   minBreakpoint="xxs"
+    // >
     <div className="app-container">
       <div className="create-select-container">
         <CreateTodo />
@@ -13,6 +18,7 @@ const App = () => {
       </div>
       <ShowTodo />
     </div>
+    // </ThemeProvider>
   );
 };
 
